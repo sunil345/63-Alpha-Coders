@@ -1,0 +1,348 @@
+{
+  "info": {
+    "name": "Intelligent Email Agent API",
+    "description": "A comprehensive API for intelligent email analysis, categorization, and management powered by AI.",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Email Analysis",
+      "item": [
+        {
+          "name": "Process Emails",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_address\": \"your@email.com\",\n  \"password\": \"your-app-password\",\n  \"imap_server\": \"imap.gmail.com\",\n  \"imap_port\": 993,\n  \"use_ssl\": true,\n  \"limit\": 50\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/email/process-emails",
+              "host": ["{{base_url}}"],
+              "path": ["api", "email", "process-emails"]
+            },
+            "description": "Process emails from IMAP server with AI analysis and categorization."
+          }
+        },
+        {
+          "name": "Get Daily Summary",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/email/daily-summary/2024-01-15",
+              "host": ["{{base_url}}"],
+              "path": ["api", "email", "daily-summary", "2024-01-15"]
+            },
+            "description": "Retrieve comprehensive email summary for a specific date."
+          }
+        },
+        {
+          "name": "Get Emails by Date",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/email/emails/2024-01-15?category=work&priority=high&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "email", "emails", "2024-01-15"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "work",
+                  "description": "Filter by category (optional)"
+                },
+                {
+                  "key": "priority",
+                  "value": "high",
+                  "description": "Filter by priority (optional)"
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum emails to return (optional)"
+                }
+              ]
+            },
+            "description": "Retrieve processed emails for a specific date with optional filtering."
+          }
+        },
+        {
+          "name": "Mark Email as Read",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/api/email/emails/email-1/mark-read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "email", "emails", "email-1", "mark-read"]
+            },
+            "description": "Mark a specific email as read."
+          }
+        },
+        {
+          "name": "Mark Email as Replied",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/api/email/emails/email-1/mark-replied",
+              "host": ["{{base_url}}"],
+              "path": ["api", "email", "emails", "email-1", "mark-replied"]
+            },
+            "description": "Mark a specific email as replied to."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Send Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"You have 5 new emails requiring attention\",\n  \"channels\": [\"slack\", \"telegram\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notifications/send",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "send"]
+            },
+            "description": "Send notification through specified channels."
+          }
+        },
+        {
+          "name": "Send Daily Summary Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2024-01-15\",\n  \"total_emails\": 25,\n  \"categories\": {\n    \"work\": 15,\n    \"personal\": 5,\n    \"promotions\": 3,\n    \"social\": 2\n  },\n  \"urgent_emails\": [],\n  \"unread_emails\": [],\n  \"response_reminders\": [],\n  \"priority_breakdown\": {\n    \"low\": 8,\n    \"medium\": 12,\n    \"high\": 5\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notifications/daily-summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "daily-summary"]
+            },
+            "description": "Send formatted daily summary notification."
+          }
+        },
+        {
+          "name": "Send Urgent Email Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject\": \"URGENT: System Down\",\n  \"sender\": \"Admin\",\n  \"sender_email\": \"admin@company.com\",\n  \"received_at\": \"2024-01-15T10:00:00\",\n  \"summary\": \"System is down and needs immediate attention\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notifications/urgent-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "urgent-email"]
+            },
+            "description": "Send immediate notification for urgent emails."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Voice",
+      "item": [
+        {
+          "name": "Generate Voice Summary",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"You have 5 new emails today. 3 are work-related and 2 are personal.\",\n  \"voice\": \"en-US-Standard-A\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/voice/generate-voice-summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "voice", "generate-voice-summary"]
+            },
+            "description": "Convert text to speech and return audio file."
+          }
+        },
+        {
+          "name": "Get Available Voices",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/voice/available-voices",
+              "host": ["{{base_url}}"],
+              "path": ["api", "voice", "available-voices"]
+            },
+            "description": "Retrieve list of available TTS voices."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Configuration",
+      "item": [
+        {
+          "name": "Get Configuration",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/config/configuration/email_config",
+              "host": ["{{base_url}}"],
+              "path": ["api", "config", "configuration", "email_config"]
+            },
+            "description": "Retrieve configuration for a specific key."
+          }
+        },
+        {
+          "name": "Save Configuration",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_address\": \"user@example.com\",\n  \"imap_server\": \"imap.gmail.com\",\n  \"imap_port\": 993,\n  \"use_ssl\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/config/configuration/email_config",
+              "host": ["{{base_url}}"],
+              "path": ["api", "config", "configuration", "email_config"]
+            },
+            "description": "Save configuration for a specific key."
+          }
+        },
+        {
+          "name": "Get VIP Contacts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/config/vip-contacts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "config", "vip-contacts"]
+            },
+            "description": "Retrieve all VIP contacts."
+          }
+        },
+        {
+          "name": "Add VIP Contact",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newvip@company.com\",\n  \"name\": \"New VIP\",\n  \"priority_level\": \"high\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/config/vip-contacts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "config", "vip-contacts"]
+            },
+            "description": "Add a new VIP contact."
+          }
+        },
+        {
+          "name": "Delete VIP Contact",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/config/vip-contacts/vip@company.com",
+              "host": ["{{base_url}}"],
+              "path": ["api", "config", "vip-contacts", "vip@company.com"]
+            },
+            "description": "Remove a VIP contact."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        },
+        "description": "Check API health status."
+      }
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set timestamp for requests",
+          "pm.environment.set('timestamp', new Date().toISOString());"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Common tests for all requests",
+          "pm.test('Status code is successful', function () {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+          "});",
+          "",
+          "pm.test('Response time is less than 10 seconds', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+          "});",
+          "",
+          "pm.test('Content-Type is present', function () {",
+          "    pm.expect(pm.response.headers.get('Content-Type')).to.exist;",
+          "});"
+        ]
+      }
+    }
+  ]
+} 
